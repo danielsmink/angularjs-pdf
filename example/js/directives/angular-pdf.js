@@ -31,6 +31,9 @@
     };
     return {
       restrict: 'E',
+      scope: {
+        'pdfUrl': '='
+      },
       templateUrl: function(element, attr) {
         return attr.templateUrl ? attr.templateUrl : 'partials/viewer.html';
       },
