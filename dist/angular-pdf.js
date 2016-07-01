@@ -44,6 +44,7 @@
         var pdfDoc = null;
         var pageToDisplay = isFinite(attrs.page) ? parseInt(attrs.page) : 1;
         var pageFit = attrs.scale === 'page-fit';
+        var limitHeight = attrs.limitcanvasheight === '1';
         var scale = attrs.scale > 0 ? attrs.scale : 1;
         var canvasid = attrs.canvasid || 'pdf-canvas';
         var canvas = document.getElementById(canvasid);
@@ -76,6 +77,9 @@
               viewport = page.getViewport(1);
               var clientRect = element[0].getBoundingClientRect();
               pageWidthScale = clientRect.width / viewport.width;
+              if (limitHeight) {
+                pageWidthScale = Math.min(pageWidthScale, (clientRect.height - 5) / viewport.height);
+              }
               scale = pageWidthScale;
             }
             viewport = page.getViewport(scale);
@@ -195,6 +199,7 @@
 
         scope.$watch('pageNum', function(newVal) {
           scope.pageToDisplay = parseInt(newVal);
+          console.log('hi');
           if (pdfDoc !== null) {
             scope.renderPage(scope.pageToDisplay);
           }
