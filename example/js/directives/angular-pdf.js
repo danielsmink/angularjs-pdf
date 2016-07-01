@@ -198,8 +198,12 @@
         }
 
         scope.$watch('pageNum', function(newVal) {
-          scope.pageToDisplay = parseInt(newVal);
-          console.log('hi');
+          // Check if we have a valid value
+          if(newVal === '' || newVal > scope.pageCount || newVal < 1) {
+            newVal = oldVal;
+          }
+
+          scope.pageToDisplay = parseInt(newVal);          
           if (pdfDoc !== null) {
             scope.renderPage(scope.pageToDisplay);
           }
